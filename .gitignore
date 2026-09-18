@@ -1,0 +1,52 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments & Virtualenvs
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# Large genomic files & indices (Never commit full reference genomes)
+data/references/*.fa
+data/references/*.fasta
+data/references/*.fna
+data/references/*.bt2
+data/references/*.nhr
+data/references/*.nin
+data/references/*.nsq
+data/raw/*.csv.gz
+data/raw/*.tar.gz
+*.db
+*.sqlite3
+
+# ML Artifacts (Large weights)
+ml/models/*.pt
+ml/models/*.pth
+ml/models/*.onnx
+!ml/models/.gitkeep
+
+# Node & Frontend
+node_modules/
+dist/
+.dist/
+frontend/dist/
+frontend/node_modules/
+.npm/
+
+# IDE & OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+*.log

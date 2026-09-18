@@ -1,0 +1,42 @@
+{
+  "model_version": "1.0.0",
+  "feature_version": "gene-cure-v1-105",
+  "dataset_name": "Doench 2016 Rule Set 2",
+  "dataset_rows": 5310,
+  "train_rows": 4248,
+  "validation_rows": 531,
+  "test_rows": 531,
+  "training_date": "2026-08-15",
+  "features_dim": 105,
+  "hybrid_features_dim": 169,
+  "artifacts": {
+    "cnn": "ml/models/cnn/cnn_best.pt",
+    "xgboost": "ml/models/xgboost/xgboost_model.json",
+    "hybrid": "ml/models/hybrid/hybrid_model.json"
+  },
+  "metrics": {
+    "CNN": {
+      "spearman_rho": 0.6473140187897821,
+      "pearson_r": 0.6543942734542578,
+      "mae": 0.16921672224998474,
+      "rmse": 0.2297564446926117,
+      "r2": 0.3982120156288147
+    },
+    "XGBoost": {
+      "spearman_rho": 0.598450578450298,
+      "pearson_r": 0.6132878929346666,
+      "mae": 0.19412840902805328,
+      "rmse": 0.23530256748199463,
+      "r2": 0.3688080310821533
+    },
+    "Hybrid": {
+      "spearman_rho": 0.6560698851900143,
+      "pearson_r": 0.6660097573840029,
+      "mae": 0.16454054415225983,
+      "rmse": 0.2241497039794922,
+      "r2": 0.42722445726394653
+    },
+    "test_samples": 531,
+    "timestamp": "2026-08-15 17:42:37"
+  }
+}
