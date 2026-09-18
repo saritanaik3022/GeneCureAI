@@ -15,7 +15,16 @@ import type {
   TOPSISWeights,
 } from '../types';
 
-const API_BASE = '/api/v1';
+// Resolve configured backend base URL from environment (e.g. Vercel Production)
+// If VITE_API_URL is defined, use it; otherwise fall back to relative path for Vite dev proxy.
+const rawApiUrl = (import.meta.env.VITE_API_URL || '').trim();
+// Strip trailing slashes to prevent duplicate slashes
+const BACKEND_BASE = rawApiUrl ? rawApiUrl.replace(/\/+$/, '') : '';
+
+// Safely construct API base URL (avoid duplicate /api/v1 if VITE_API_URL already includes it)
+export const API_BASE = BACKEND_BASE
+  ? (BACKEND_BASE.endsWith('/api/v1') ? BACKEND_BASE : `${BACKEND_BASE}/api/v1`)
+  : '/api/v1';
 
 // ---- Core fetch helper ----
 
@@ -34,7 +43,21 @@ async function apiFetch<T>(url: string, options?: RequestInit): Promise<T> {
 // ---- Health ----
 
 export const fetchHealthStatus = async (): Promise<HealthResponse> => {
-  const candidateUrls = ['/health', '/api/health', 'http://127.0.0.1:8000/health', 'http://127.0.0.1:8000/api/health'];
+  // If a production backend URL is configured (VITE_API_URL exists), query the production backend endpoints.
+  // In local development (VITE_API_URL not set), test relative proxy paths and local dev fallbacks.
+  const candidateUrls = BACKEND_BASE
+    ? [
+        `${BACKEND_BASE}/health`,
+        `${BACKEND_BASE}/api/health`,
+        `${API_BASE}/health`,
+      ]
+    : [
+        '/health',
+        '/api/health',
+        `${API_BASE}/health`,
+        'http://127.0.0.1:8000/health',
+        'http://127.0.0.1:8000/api/health',
+      ];
   let lastError: any = null;
 
   for (const url of candidateUrls) {
