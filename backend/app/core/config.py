@@ -31,8 +31,13 @@ class Settings(BaseSettings):
         "http://localhost:3000",
         "http://127.0.0.1:5173",
         "http://127.0.0.1:3000",
-        "https://genecureai.vercel.app"
+        "https://genecureai.vercel.app",
+        "https://genecureaii.vercel.app",
+        "https://genecureaii-2v5ztn5z9-sarita-damodar-naik.vercel.app",
     ]
+    ALLOWED_ORIGIN_REGEX: Optional[str] = (
+        r"^https:\/\/(genecureai|genecureaii)(-[a-zA-Z0-9_-]+)?\.vercel\.app$"
+    )
 
     # Target Cancer Types and Supported Genes
     SUPPORTED_CANCERS: List[str] = [
@@ -92,6 +97,14 @@ class Settings(BaseSettings):
                 except Exception:
                     pass
             return [origin.strip() for origin in v_trimmed.split(",") if origin.strip()]
+        return v
+
+    @field_validator("ALLOWED_ORIGIN_REGEX", mode="before")
+    @classmethod
+    def assemble_cors_regex(cls, v):
+        if isinstance(v, str):
+            v_trimmed = v.strip()
+            return v_trimmed if v_trimmed else None
         return v
 
     @field_validator("EXECUTION_MODE")

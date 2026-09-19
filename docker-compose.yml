@@ -12,7 +12,8 @@ services:
       - APP_ENV=production
       - EXECUTION_MODE=DEMO_MODE
       - DATABASE_URL=postgresql+asyncpg://genecure_user:genecure_pass@db:5432/genecure_db
-      - ALLOWED_ORIGINS=["http://localhost:5173", "http://localhost:3000", "https://genecureai.vercel.app"]
+      - ALLOWED_ORIGINS=["http://localhost:5173", "http://localhost:3000", "https://genecureai.vercel.app", "https://genecureaii.vercel.app", "https://genecureaii-2v5ztn5z9-sarita-damodar-naik.vercel.app"]
+      - ALLOWED_ORIGIN_REGEX=^https:\/\/(genecureai|genecureaii)(-[a-zA-Z0-9_-]+)?\.vercel\.app$
     depends_on:
       db:
         condition: service_healthy
