@@ -6,7 +6,10 @@ import os
 import pandas as pd
 from pathlib import Path
 from typing import Dict, Tuple, Optional
-from backend.app.core.config import settings
+try:
+    from backend.app.core.config import settings
+except ImportError:
+    from app.core.config import settings
 
 
 class TCGACancerRelevanceService:
@@ -15,7 +18,7 @@ class TCGACancerRelevanceService:
     Handles gene symbol aliases (e.g., HER2 <-> ERBB2) and cancer indication normalization.
     """
 
-    DEFAULT_CSV_PATH = Path("C:/Users/GeneCureAI/results/cancer_relevance_scores.csv")
+    DEFAULT_CSV_PATH = Path(settings.CANCER_RELEVANCE_DATA)
 
     # Cancer type normalization map
     CANCER_MAP: Dict[str, str] = {

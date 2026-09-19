@@ -14,6 +14,7 @@ psycopg2-binary>=2.9.9
 
 # Bioinformatics & Sequence Analysis
 biopython>=1.83
+pyfaidx>=0.8.0
 
 # Machine Learning & Numerical Analysis
 numpy>=1.26.0,<2.0.0

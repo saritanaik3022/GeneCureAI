@@ -1,6 +1,7 @@
 """
 Application configuration management using Pydantic Settings and pathlib.
 """
+import os
 from pathlib import Path
 from typing import List, Optional
 from pydantic import field_validator
@@ -64,17 +65,17 @@ class Settings(BaseSettings):
     WEIGHT_CANCER_RELEVANCE: float = 0.20
     WEIGHT_GC_OPTIMALITY: float = 0.15
 
-    # Configurable Real Dataset Paths (Pathlib compatible)
-    DATA_ROOT: Path = Path("C:/Users/GeneCureAI/data")
-    GENOME_FASTA: Path = Path("C:/Users/GeneCureAI/data/genome/GRCh38.primary_assembly.genome.fa")
-    GENCODE_GTF: Path = Path("C:/Users/GeneCureAI/data/annotation/gencode.v46.annotation.gtf")
-    BOWTIE2_INDEX: Path = Path("C:/Users/GeneCureAI/data/bowtie2_index/GRCh38")
-    DOENCH_DATA: Path = Path("C:/Users/GeneCureAI/data/doench2016/doench2016_ruleset2_train.csv")
-    CANCER_RELEVANCE_DATA: Path = Path("C:/Users/GeneCureAI/results/cancer_relevance_scores.csv")
+    # Configurable Real Dataset Paths (Pathlib compatible, environment overridable)
+    DATA_ROOT: Path = Path("/data" if os.name != "nt" else "C:/Users/GeneCureAI/data")
+    GENOME_FASTA: Path = Path("/data/genome/GRCh38.primary_assembly.genome.fa" if os.name != "nt" else "C:/Users/GeneCureAI/data/genome/GRCh38.primary_assembly.genome.fa")
+    GENCODE_GTF: Path = Path("/data/annotation/gencode.v46.annotation.gtf" if os.name != "nt" else "C:/Users/GeneCureAI/data/annotation/gencode.v46.annotation.gtf")
+    BOWTIE2_INDEX: Path = Path("/data/bowtie2_index/GRCh38" if os.name != "nt" else "C:/Users/GeneCureAI/data/bowtie2_index/GRCh38")
+    DOENCH_DATA: Path = Path("data/raw/doench2016_ruleset2_train.csv" if Path("data/raw/doench2016_ruleset2_train.csv").exists() else ("C:/Users/GeneCureAI/data/doench2016/doench2016_ruleset2_train.csv" if os.name == "nt" else "/data/doench2016/doench2016_ruleset2_train.csv"))
+    CANCER_RELEVANCE_DATA: Path = Path("results/cancer_relevance_scores.csv" if Path("results/cancer_relevance_scores.csv").exists() else ("C:/Users/GeneCureAI/results/cancer_relevance_scores.csv" if os.name == "nt" else "/app/results/cancer_relevance_scores.csv"))
 
     # Legacy alias strings
-    GRCH38_FASTA_PATH: str = "C:/Users/GeneCureAI/data/genome/GRCh38.primary_assembly.genome.fa"
-    GRCH38_BOWTIE2_INDEX: str = "C:/Users/GeneCureAI/data/bowtie2_index/GRCh38"
+    GRCH38_FASTA_PATH: str = "/data/genome/GRCh38.primary_assembly.genome.fa" if os.name != "nt" else "C:/Users/GeneCureAI/data/genome/GRCh38.primary_assembly.genome.fa"
+    GRCH38_BOWTIE2_INDEX: str = "/data/bowtie2_index/GRCh38" if os.name != "nt" else "C:/Users/GeneCureAI/data/bowtie2_index/GRCh38"
     BLAST_DB_PATH: str = "./data/references/blast_db/GRCh38"
 
     # ML Model Checkpoints
